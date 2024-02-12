@@ -24,20 +24,7 @@ class SignUpView extends StatelessWidget {
             nameController: nameController,
             passwordController: passwordController,
             onSignUpPressed: () {
-              // Navigator.of(context).push(MaterialPageRoute(
-              //   builder: (context) => LoginView(),
-              // ));
-
-              final newUser = Users(
-                  email: emailController.text,
-                  password: passwordController.text,
-                  name: nameController.text,
-                  avatar:
-                      "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fbackground%2F&psig=AOvVaw2o3ksdPkuuFd3Kv8KHTHbG&ust=1707822241277000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCKjdxeHTpYQDFQAAAAAdAAAAABAE");
-              provider.createUser(user: newUser);
-              emailController.clear();
-              passwordController.clear();
-              nameController.clear();
+              signupmethod(provider, context);
             },
             onLoginPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -46,6 +33,34 @@ class SignUpView extends StatelessWidget {
             },
           ),
         ),
+      ),
+    );
+  }
+
+  void signupmethod(SignUpController provider, BuildContext context) {
+    final newUser = Users(
+        email: emailController.text,
+        password: passwordController.text,
+        name: nameController.text,
+        avatar:
+            "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fbackground%2F&psig=AOvVaw2o3ksdPkuuFd3Kv8KHTHbG&ust=1707822241277000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCKjdxeHTpYQDFQAAAAAdAAAAABAE");
+    provider.createUser(user: newUser);
+    emailController.clear();
+    passwordController.clear();
+    nameController.clear();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        elevation: 5,
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+        content: Text('Signup Successful'),
+      ),
+    );
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => LoginView(),
       ),
     );
   }
