@@ -1,18 +1,23 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quick_buy/app/models/users_model.dart';
 import 'package:quick_buy/app/utils/constants.dart';
 import 'package:quick_buy/app/views/users/auth/login/widgets/textfield_widget.dart';
 import 'package:quick_buy/app/views/users/auth/signup/signup_view.dart';
-import 'package:quick_buy/app/views/users/home/home_view.dart';
+
+import '../../../../controllers/login_controller.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
 
-  TextEditingController controller = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LoginController>(context);
     return Scaffold(
       backgroundColor: kWhite,
       body: SafeArea(
@@ -50,7 +55,7 @@ class LoginView extends StatelessWidget {
               ),
               ReusableTextField(
                 label: 'Email',
-                controller: controller,
+                controller: emailController,
               ),
               const SizedBox(height: 15),
               const Padding(
@@ -68,7 +73,7 @@ class LoginView extends StatelessWidget {
               ),
               ReusableTextField(
                 label: 'Password',
-                controller: controller,
+                controller: passwordController,
                 obscureText: true,
               ),
               const SizedBox(height: 20),
@@ -88,9 +93,13 @@ class LoginView extends StatelessWidget {
               const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => HomeView(),
-                  ));
+                  final user = Users(
+                      email: emailController.text,
+                      password: passwordController.text);
+                  provider.loginUser(user: user, cxt: context);
+                  emailController.clear();
+                  passwordController.clear();
+                  
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kBlack,

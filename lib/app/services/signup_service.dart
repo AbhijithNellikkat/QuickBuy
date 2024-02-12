@@ -20,7 +20,7 @@ class SignUpService {
       };
 
       var response = await dio.post(
-        usersUrl,
+        signUpUrl,
         data: jsonEncode(data),
         options: Options(
           headers: {'Content-Type': 'application/json'},

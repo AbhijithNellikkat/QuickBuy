@@ -1,9 +1,7 @@
-import 'package:dio/dio.dart';
-
 var productsUrl = "https://api.escuelajs.co/api/v1/products/";
 
-var usersUrl = "https://api.escuelajs.co/api/v1/users/";
+var signUpUrl = "https://api.escuelajs.co/api/v1/users/";
 
-final Dio dio = Dio();
+var loginUrl = "https://api.escuelajs.co/api/v1/auth/login";
 
-
+var profileUrl = " https://api.escuelajs.co/api/v1/auth/profile";

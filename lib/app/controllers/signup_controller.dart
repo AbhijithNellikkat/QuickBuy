@@ -17,7 +17,9 @@ class SignUpController extends ChangeNotifier {
       await signUpService.createUser(user: user);
       log("done");
     } catch (e) {
-      log("controller Error : $e");
+      loading = false;
+      notifyListeners();
+      log("signup controller Error : $e");
     }
   }
 }
