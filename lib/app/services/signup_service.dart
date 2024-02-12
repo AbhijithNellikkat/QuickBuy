@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'dart:convert';
 import 'dart:developer';
 
@@ -27,11 +29,18 @@ class SignUpService {
 
       if (response.statusCode == 201) {
         log("User Created");
+      } else if (response.statusCode == 401) {
+        String error = 'Something went wrong';
+        if (response.data != null &&
+            response.data['error'] == 'Invalid username or password') {
+          error = 'Invalid username or password';
+        }
+        throw Exception(error);
       } else {
         log("Failed to create user: ${response.statusCode}");
       }
-    } catch (e) {
-      log("Error: $e");
+    } on DioException {
+      rethrow;
     }
   }
 }
