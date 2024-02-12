@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_buy/app/utils/constants.dart';
-import 'package:quick_buy/app/views/admin/admin_view.dart';
+import 'package:quick_buy/app/views/users/auth/signup/signup_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,15 +12,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'QuickBuy',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          appBarTheme: const AppBarTheme(backgroundColor: kBlack),
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.yellow,
-          ),
-          useMaterial3: true,
+      title: 'QuickBuy',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(backgroundColor: kBlack),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.yellow,
         ),
-        home: AdminView());
+        useMaterial3: true,
+      ),
+      home: SignUpView(),
+    );
   }
 }
