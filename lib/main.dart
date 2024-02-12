@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_buy/app/utils/constants.dart';
 import 'package:quick_buy/app/views/users/auth/signup/signup_view.dart';
+
+import 'app/controllers/signup_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,17 +14,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'QuickBuy',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(backgroundColor: kBlack),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.yellow,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SignUpController()),
+      ],
+      child: MaterialApp(
+        title: 'QuickBuy',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(backgroundColor: kBlack),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.yellow,
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
+        home: SignUpView(),
       ),
-      home: SignUpView(),
     );
   }
 }

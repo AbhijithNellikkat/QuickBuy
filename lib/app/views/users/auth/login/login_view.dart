@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:quick_buy/app/utils/constants.dart';
 import 'package:quick_buy/app/views/users/auth/login/widgets/textfield_widget.dart';
 import 'package:quick_buy/app/views/users/auth/signup/signup_view.dart';
+import 'package:quick_buy/app/views/users/home/home_view.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
@@ -86,7 +87,11 @@ class LoginView extends StatelessWidget {
               ),
               const SizedBox(height: 50),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => HomeView(),
+                  ));
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kBlack,
                   side: BorderSide(color: kBlack, width: 1),
