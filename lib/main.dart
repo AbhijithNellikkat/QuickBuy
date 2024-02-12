@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quick_buy/app/utils/constants.dart';
+import 'package:quick_buy/app/views/admin/admin_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,12 +12,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'QuickBuy',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const Scaffold(),
-    );
+        title: 'QuickBuy',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(backgroundColor: kBlack),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.yellow,
+          ),
+          useMaterial3: true,
+        ),
+        home: AdminView());
   }
 }
