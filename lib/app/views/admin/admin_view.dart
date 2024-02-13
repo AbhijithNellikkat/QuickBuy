@@ -22,6 +22,7 @@ class AdminView extends StatelessWidget {
           centerTitle: true,
         ),
         drawer: Drawer(
+          
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
@@ -87,7 +88,7 @@ class AdminView extends StatelessWidget {
                     leading: const Icon(Icons.category),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const CategoriesView(),
+                        builder: (context) => CategoriesView(),
                       ));
                     },
                     trailing: IconButton(

@@ -9,6 +9,13 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.logout_outlined),
+          ),
+          const SizedBox(width: 20),
+        ],
         automaticallyImplyLeading: false,
         iconTheme: const IconThemeData(color: kWhite),
         title: Text(

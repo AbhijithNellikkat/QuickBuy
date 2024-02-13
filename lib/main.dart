@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_buy/app/controllers/categories_controller.dart';
 import 'package:quick_buy/app/controllers/login_controller.dart';
 import 'package:quick_buy/app/utils/constants.dart';
-import 'package:quick_buy/app/views/users/auth/signup/signup_view.dart';
+import 'package:quick_buy/app/views/admin/admin_view.dart';
 
 import 'app/controllers/signup_controller.dart';
 
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SignUpController()),
-         ChangeNotifierProvider(create: (context) => LoginController()),
+        ChangeNotifierProvider(create: (context) => LoginController()),
+        ChangeNotifierProvider(create: (context) => CategoryController()),
       ],
       child: MaterialApp(
         title: 'QuickBuy',
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: SignUpView(),
+        // home: SignUpView(),
+        home: AdminView(),
       ),
     );
   }

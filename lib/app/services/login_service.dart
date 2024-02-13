@@ -26,6 +26,7 @@ class LoginService {
 
       if (response.statusCode == 201) {
         String accessToken = response.data['access_token'];
+
         return accessToken;
       } else if (response.statusCode == 401) {
         String error = 'Something went wrong';

@@ -24,10 +24,9 @@ class LoginController extends ChangeNotifier {
 
       // ignore: unnecessary_null_comparison
       if (accessToken != null) {
-        // Fetch user profile
+        
         await loginService.fetchUserProfile(accessToken);
 
-        // Navigate to home screen
         Navigator.pushReplacement(
             cxt, MaterialPageRoute(builder: (context) => HomeView()));
       } else {
