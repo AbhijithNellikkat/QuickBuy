@@ -44,4 +44,25 @@ class CategoryController extends ChangeNotifier {
       log('$e');
     }
   }
+
+  Future<bool> deleteCategory({required dynamic categoryID}) async {
+    try {
+      loading = true;
+      notifyListeners();
+
+      bool deleted =
+          await categoryService.deleteCategory(categoryID: categoryID);
+      if (deleted) {
+        await fetchAllCategories();
+      }
+      loading = false;
+      notifyListeners();
+      return deleted;
+    } catch (e) {
+      loading = false;
+      notifyListeners();
+      log('$e');
+      return false;
+    }
+  }
 }

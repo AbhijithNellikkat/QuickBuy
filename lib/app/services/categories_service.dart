@@ -19,10 +19,8 @@ class CategoryService {
             .toList();
 
         return categories;
-      } else if (response.statusCode == 401) {
-        throw Exception('Unauthorized access: ${response.statusCode}');
       } else {
-        throw Exception('Failed to load categories: ${response.statusCode}');
+        throw Exception('Failed to load categories');
       }
     } catch (e) {
       log("Error : $e");
@@ -34,10 +32,7 @@ class CategoryService {
       {required CategoriesModel categoriesModel}) async {
     var url = "https://api.escuelajs.co/api/v1/categories/";
     try {
-      var data = {
-        "name": categoriesModel.name,
-        "image": categoriesModel.image,
-      };
+      var data = {"name": categoriesModel.name, "image": categoriesModel.image};
 
       var response = await dio.post(
         url,
@@ -50,13 +45,26 @@ class CategoryService {
       if (response.statusCode == 201) {
         await fetchAllCategories();
         log("Add new category successfully");
-      } else if (response.statusCode == 401) {
-        throw Exception('Unauthorized access: ${response.statusCode}');
-      } else {
-        throw Exception('Failed to create category: ${response.statusCode}');
       }
     } catch (e) {
       log("Error : $e");
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteCategory({required dynamic categoryID}) async {
+    try {
+      final response = await dio
+          .delete("https://api.escuelajs.co/api/v1/categories/$categoryID");
+
+      if (response.statusCode == 200) {
+        log("Category deleted successfully");
+        return true;
+      } else {
+        throw Exception('Failed to delete category');
+      }
+    } catch (e) {
+      log("Error: $e");
       rethrow;
     }
   }

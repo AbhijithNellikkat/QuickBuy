@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -54,16 +56,82 @@ class _CategoriesViewState extends State<CategoriesView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(
-                            width: 170,
-                            height: 130,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              image: DecorationImage(
-                                image: NetworkImage(category.image ?? ''),
-                                fit: BoxFit.cover,
+                          Stack(
+                            children: [
+                              Container(
+                                width: 170,
+                                height: 130,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  image: DecorationImage(
+                                    image: NetworkImage(category.image ?? ''),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Positioned(
+                                right: 8,
+                                top: 5,
+                                child: PopupMenuButton(
+                                  color: kBlack,
+                                  elevation: 1,
+                                  itemBuilder: (BuildContext context) {
+                                    return [
+                                      PopupMenuItem(
+                                        onTap: () {},
+                                        child: const Text(
+                                          "Update category",
+                                          style: TextStyle(color: kWhite),
+                                        ),
+                                      ),
+                                      PopupMenuItem(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text(
+                                                    "Confirm Deletion"),
+                                                content: const Text(
+                                                    "Are you sure you want to delete this category?"),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop(); // Close dialog
+                                                    },
+                                                    child: Text("Cancel"),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      await categoryController
+                                                          .deleteCategory(
+                                                              categoryID:
+                                                                  category.id);
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text("Delete"),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: const Text(
+                                          "Delete category",
+                                          style: TextStyle(color: kWhite),
+                                        ),
+                                      ),
+                                    ];
+                                  },
+                                  child: const Icon(
+                                    Icons.more,
+                                    size: 26,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           Text(
                             category.name ?? '',
@@ -121,7 +189,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                     if (categoryNameController.text.trim().isNotEmpty) {
                       final newCategoryData = CategoriesModel(
                         image:
-                            "https://images.unsplash.com/photo-1621146027714-e8921770f8d0?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvzKE-ysmX-dkLzAtw3zymWFfVniTu9GZtpkwsF3EBZQ&s",
                         name: categoryNameController.text.trim(),
                       );
 
