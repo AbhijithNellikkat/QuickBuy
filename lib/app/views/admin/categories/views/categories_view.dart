@@ -19,17 +19,21 @@ class _CategoriesViewState extends State<CategoriesView> {
   // XFile? image;
 
   final TextEditingController categoryNameController = TextEditingController();
+  final TextEditingController updateCategoryNameController =
+      TextEditingController();
 
   @override
   void initState() {
     Provider.of<CategoryController>(context, listen: false)
         .fetchAllCategories();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final categoryController = Provider.of<CategoryController>(context);
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: kWhite),
@@ -53,6 +57,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                 itemCount: categoryController.categories.length,
                 itemBuilder: (context, index) {
                   final category = categoryController.categories[index];
+
                   return Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -82,7 +87,10 @@ class _CategoriesViewState extends State<CategoriesView> {
                                   itemBuilder: (BuildContext context) {
                                     return [
                                       PopupMenuItem(
-                                        onTap: () {},
+                                        onTap: () {
+                                          updateCategoryDialog(context,
+                                              categoryController, category);
+                                        },
                                         child: const Text(
                                           "Update category",
                                           style: TextStyle(color: kWhite),
@@ -183,6 +191,47 @@ class _CategoriesViewState extends State<CategoriesView> {
           },
         ),
       ),
+    );
+  }
+
+  void updateCategoryDialog(BuildContext context,
+      CategoryController categoryController, CategoriesModel category) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Category Update"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: updateCategoryNameController,
+                decoration: const InputDecoration(labelText: 'Category Name'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                CategoriesModel updatedCategoryName =
+                    CategoriesModel(name: updateCategoryNameController.text);
+                await categoryController.updateCategory(
+                    categoryId: category.id!,
+                    categoriesModel: updatedCategoryName);
+
+                Navigator.of(context).pop();
+              },
+              child: const Text("update"),
+            ),
+          ],
+        );
+      },
     );
   }
 

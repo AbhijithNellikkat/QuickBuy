@@ -68,4 +68,26 @@ class CategoryService {
       rethrow;
     }
   }
+
+  Future<bool> updateCategory(
+      {required int categoryId,
+      required CategoriesModel categoriesModel}) async {
+    try {
+      Response response = await dio.put(
+        "https://api.escuelajs.co/api/v1/categories/$categoryId",
+        data: jsonEncode(categoriesModel.toJson()),
+        options: Options(
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('Failed to update category');
+      }
+    } catch (e) {
+      throw Exception('Failed to update category: $e');
+    }
+  }
 }

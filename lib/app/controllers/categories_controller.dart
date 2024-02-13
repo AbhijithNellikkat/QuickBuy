@@ -65,4 +65,23 @@ class CategoryController extends ChangeNotifier {
       return false;
     }
   }
+
+  Future<void> updateCategory(
+      {required int categoryId,
+      required CategoriesModel categoriesModel}) async {
+    try {
+      loading = true;
+      notifyListeners();
+      bool updated = await categoryService.updateCategory(
+          categoryId: categoryId, categoriesModel: categoriesModel);
+      if (updated) {
+        await fetchAllCategories();
+      }
+    } catch (e) {
+      log("Error updating category: $e");
+    } finally {
+      loading = false;
+      notifyListeners();
+    }
+  }
 }
