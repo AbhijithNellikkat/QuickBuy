@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_buy/app/controllers/categories_controller.dart';
@@ -39,7 +40,10 @@ class _CategoriesViewState extends State<CategoriesView> {
       ),
       body: categoryController.loading
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: SpinKitFadingCircle(
+                color: kBlack,
+                size: 50.0,
+              ),
             )
           : Padding(
               padding: const EdgeInsets.all(1.0),
@@ -104,14 +108,40 @@ class _CategoriesViewState extends State<CategoriesView> {
                                                   ),
                                                   TextButton(
                                                     onPressed: () async {
-                                                      await categoryController
-                                                          .deleteCategory(
-                                                              categoryID:
-                                                                  category.id);
+                                                      bool deleted =
+                                                          await categoryController
+                                                              .deleteCategory(
+                                                                  categoryID:
+                                                                      category
+                                                                          .id);
+
+                                                      if (deleted) {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          const SnackBar(
+                                                            backgroundColor:
+                                                                Colors.green,
+                                                            content: Text(
+                                                                'category deleted successfully'),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          const SnackBar(
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            content: Text(
+                                                                'Failed to delete category'),
+                                                          ),
+                                                        );
+                                                      }
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
-                                                    child: Text("Delete"),
+                                                    child: const Text("Delete"),
                                                   ),
                                                 ],
                                               );
@@ -189,7 +219,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                     if (categoryNameController.text.trim().isNotEmpty) {
                       final newCategoryData = CategoriesModel(
                         image:
-                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvzKE-ysmX-dkLzAtw3zymWFfVniTu9GZtpkwsF3EBZQ&s",
+                            "https://t3.ftcdn.net/jpg/05/04/28/96/360_F_504289605_zehJiK0tCuZLP2MdfFBpcJdOVxKLnXg1.jpg",
                         name: categoryNameController.text.trim(),
                       );
 
