@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:quick_buy/app/models/categories_model.dart';
 import 'package:quick_buy/app/services/categories_service.dart';
 
 class CategoryController extends ChangeNotifier {
@@ -22,6 +23,21 @@ class CategoryController extends ChangeNotifier {
 
       loading = false;
       notifyListeners();
+    } catch (e) {
+      loading = false;
+      notifyListeners();
+      log('$e');
+    }
+  }
+
+  Future<void> createNewCategory(
+      {required CategoriesModel categoriesModel}) async {
+    try {
+      loading = true;
+      notifyListeners();
+
+      await categoryService.createNewCategory(categoriesModel: categoriesModel);
+      await fetchAllCategories();
     } catch (e) {
       loading = false;
       notifyListeners();

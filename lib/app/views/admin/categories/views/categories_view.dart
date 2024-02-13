@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_buy/app/controllers/categories_controller.dart';
+import 'package:quick_buy/app/models/categories_model.dart';
 import 'package:quick_buy/app/utils/constants.dart';
 
 class CategoriesView extends StatefulWidget {
@@ -12,6 +13,10 @@ class CategoriesView extends StatefulWidget {
 }
 
 class _CategoriesViewState extends State<CategoriesView> {
+  // XFile? image;
+
+  final TextEditingController categoryNameController = TextEditingController();
+
   @override
   void initState() {
     Provider.of<CategoryController>(context, listen: false)
@@ -71,6 +76,87 @@ class _CategoriesViewState extends State<CategoriesView> {
                 },
               ),
             ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            addCategoryBottomSheet(context, categoryController);
+          },
+        ),
+      ),
     );
   }
+
+  Future<dynamic> addCategoryBottomSheet(
+      BuildContext context, CategoryController categoryController) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: categoryNameController,
+                decoration: const InputDecoration(labelText: 'Category Name'),
+              ),
+              const SizedBox(height: 20),
+              // image == null
+              //     ? TextButton(
+              //         onPressed: () {
+              //           pickImage();
+              //         },
+              //         child: const Text('Upload image'))
+              //     : Image.file(
+              //         File(image!.path),
+              //         height: 200,
+              //       ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (categoryNameController.text.trim().isNotEmpty) {
+                      final newCategoryData = CategoriesModel(
+                        image:
+                            "https://images.unsplash.com/photo-1621146027714-e8921770f8d0?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                        name: categoryNameController.text.trim(),
+                      );
+
+                      categoryController.createNewCategory(
+                        categoriesModel: newCategoryData,
+                      );
+                      Navigator.of(context).pop();
+                    } else {
+                      // Handle case where image or category name is not provided
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'Please provide an image and category name.'),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text('Add Category'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Future<void> pickImage() async {
+  //   final picker = ImagePicker();
+  //   final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+  //   if (pickedImage != null) {
+  //     setState(() {
+  //       image = pickedImage;
+  //       log("Image Path: ${image!.path}"); // Log image path for debugging
+  //     });
+  //   }
+  // }
 }
