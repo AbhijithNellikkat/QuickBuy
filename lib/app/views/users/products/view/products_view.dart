@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_buy/app/controllers/products_filter_controller.dart';
@@ -15,6 +16,7 @@ class ProductsView extends StatefulWidget {
 
 class _ProductsViewState extends State<ProductsView> {
   final TextEditingController titleFilterController = TextEditingController();
+  final TextEditingController priceFilterController = TextEditingController();
   @override
   void initState() {
     Provider.of<ProductsFilterController>(context, listen: false)
@@ -64,7 +66,9 @@ class _ProductsViewState extends State<ProductsView> {
                           child: Text("Filter by title"),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showPriceFilterDialog(context, filterController);
+                          },
                           child: Text("Filter by price"),
                         ),
                         TextButton(
@@ -80,38 +84,45 @@ class _ProductsViewState extends State<ProductsView> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 20),
-        child: GridView.builder(
-          itemCount: filterController.filteredProducts.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 20,
-            crossAxisSpacing: 20,
-            childAspectRatio: 0.7, // Adjust this ratio as needed
-          ),
-          itemBuilder: (context, index) {
-            final product = filterController.filteredProducts[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ProductDetailsView(
-                      productName: "${product.title}",
-                      price: "\$'${product.price}",
-                      description: "${product.description}",
-                      images: product.images,
-                      category: '${product.category.name}'),
-                ));
-              },
-              child: ProductCard(
-                productName: "${product.title}",
-                price: "\$${product.price}",
-                imageUrl: product.images[0],
+      body: filterController.loading
+          ? const Center(
+              child: SpinKitFadingCircle(
+                color: kBlack,
+                size: 50.0,
               ),
-            );
-          },
-        ),
-      ),
+            )
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 20),
+              child: GridView.builder(
+                itemCount: filterController.filteredProducts.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
+                  childAspectRatio: 0.7, // Adjust this ratio as needed
+                ),
+                itemBuilder: (context, index) {
+                  final product = filterController.filteredProducts[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ProductDetailsView(
+                            productName: "${product.title}",
+                            price: "\$'${product.price}",
+                            description: "${product.description}",
+                            images: product.images,
+                            category: '${product.category.name}'),
+                      ));
+                    },
+                    child: ProductCard(
+                      productName: "${product.title}",
+                      price: "\$${product.price}",
+                      imageUrl: product.images[0],
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
 
@@ -121,10 +132,10 @@ class _ProductsViewState extends State<ProductsView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Filter by Title"),
+          title: const Text("Filter by Title"),
           content: TextField(
             controller: titleFilterController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Enter title",
               border: OutlineInputBorder(),
             ),
@@ -134,15 +145,53 @@ class _ProductsViewState extends State<ProductsView> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 filterController.fetchAllFilterByTitleProducts(
                     title: titleFilterController.text.trim());
+                titleFilterController.clear();
                 Navigator.of(context).pop();
               },
-              child: Text('Apply'),
+              child: const Text('Apply'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showPriceFilterDialog(
+      BuildContext context, ProductsFilterController filterController) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Filter by Price"),
+          content: TextField(
+            keyboardType: TextInputType.number,
+            controller: priceFilterController,
+            decoration: const InputDecoration(
+              hintText: "Enter price",
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                filterController.fetchAllFilterByPriceProducts(
+                    price: priceFilterController.text.trim());
+                priceFilterController.clear();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Apply'),
             ),
           ],
         );
