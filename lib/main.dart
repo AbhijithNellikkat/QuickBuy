@@ -4,6 +4,7 @@ import 'package:quick_buy/app/controllers/adminside_categories_controller.dart';
 import 'package:quick_buy/app/controllers/adminside_products_controller.dart';
 import 'package:quick_buy/app/controllers/bottomNavigationBar_controller.dart';
 import 'package:quick_buy/app/controllers/login_controller.dart';
+import 'package:quick_buy/app/controllers/userside_categories_controller.dart';
 
 import 'app/controllers/signup_controller.dart';
 import 'app/views/users/auth/signup/signup_view.dart';
@@ -25,6 +26,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AdminProductsController()),
         ChangeNotifierProvider(
             create: (context) => BottomNavigationBarController()),
+            ChangeNotifierProvider(
+            create: (context) => UserCategoryController()),
       ],
       child: MaterialApp(
         title: 'QuickBuy',

@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quick_buy/app/utils/constants.dart';
+import 'package:quick_buy/app/views/admin/admin_view.dart';
 import 'package:quick_buy/app/views/users/home/widgets/sale_widget.dart';
 
 class HomeView extends StatelessWidget {
@@ -12,6 +13,19 @@ class HomeView extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AdminView(),
+                ));
+              },
+              icon: Icon(Icons.admin_panel_settings),
+            ),
+          )
+        ],
         automaticallyImplyLeading: false,
         iconTheme: const IconThemeData(color: kWhite),
         title: Text(

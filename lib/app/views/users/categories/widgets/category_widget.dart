@@ -2,7 +2,13 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatelessWidget {
-  const CategoryWidget({Key? key}) : super(key: key);
+  final String categoryImage;
+  final String categoryname;
+  const CategoryWidget({
+    Key? key,
+    required this.categoryImage,
+    required this.categoryname,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,24 +26,26 @@ class CategoryWidget extends StatelessWidget {
               errorWidget: const Icon(
                 Icons.dangerous,
                 color: Colors.red,
-                size: 28,
+                size: 88,
               ),
-              imageUrl:
-                  'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              imageUrl: categoryImage,
               boxFit: BoxFit.fill,
             ),
           ),
-          const Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Category',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 22,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: double.infinity,
+              height: 20,
+              color: const Color.fromARGB(179, 245, 245, 245).withOpacity(0.3),
+              child: Text(
+                categoryname,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  backgroundColor: Color.fromARGB(179, 245, 245, 245)
-                  // backgroundColor: lightCardColor.withOpacity(0.5),
-                  ),
+                ),
+              ),
             ),
           )
         ],
