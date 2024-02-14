@@ -33,7 +33,7 @@ class ProductsFilterController extends ChangeNotifier {
     }
   }
 
-   Future<void> fetchAllFilterByPriceProducts({required dynamic price}) async {
+  Future<void> fetchAllFilterByPriceProducts({required dynamic price}) async {
     try {
       loading = true;
       notifyListeners();
@@ -42,6 +42,28 @@ class ProductsFilterController extends ChangeNotifier {
 
       filteredProducts =
           await productsFilterService.filterByPrice(price: price);
+
+      log("filteredProducts datas length  : ${filteredProducts.length}");
+
+      loading = false;
+      notifyListeners();
+    } catch (e) {
+      loading = false;
+      notifyListeners();
+      log('Error : $e');
+    }
+  }
+
+  Future<void> fetchAllFilterByCategoryProducts(
+      {required dynamic categoryId}) async {
+    try {
+      loading = true;
+      notifyListeners();
+
+      filteredProducts.clear();
+
+      filteredProducts =
+          await productsFilterService.filterByCategory(categoryId: categoryId);
 
       log("filteredProducts datas length  : ${filteredProducts.length}");
 

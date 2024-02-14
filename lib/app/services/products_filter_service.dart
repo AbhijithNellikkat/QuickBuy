@@ -43,4 +43,23 @@ class ProductsFilterService {
       rethrow;
     }
   }
+
+  Future<List<dynamic>> filterByCategory({required dynamic categoryId}) async {
+    try {
+      final response = await dio
+          .get("https://api.escuelajs.co/api/v1/products/?categoryId=$categoryId");
+      if (response.statusCode == 200) {
+        log("Filter by category is successfully");
+        final List<dynamic> filteredProducts = (response.data)
+            .map((product) => ProductsModel.fromJson(product))
+            .toList();
+        return filteredProducts;
+      } else {
+        throw Exception('Failed to load the Filtered products');
+      }
+    } catch (e) {
+      log("Error : $e");
+      rethrow;
+    }
+  }
 }

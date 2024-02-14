@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_buy/app/controllers/products_filter_controller.dart';
+import 'package:quick_buy/app/controllers/userside_categories_controller.dart';
 import 'package:quick_buy/app/utils/constants.dart';
 import 'package:quick_buy/app/views/users/products/view/product_details_view.dart';
 import 'package:quick_buy/app/views/users/products/widgets/product_card_widget.dart';
@@ -17,17 +18,22 @@ class ProductsView extends StatefulWidget {
 class _ProductsViewState extends State<ProductsView> {
   final TextEditingController titleFilterController = TextEditingController();
   final TextEditingController priceFilterController = TextEditingController();
+  String? selectedCategory;
+
   @override
   void initState() {
     Provider.of<ProductsFilterController>(context, listen: false)
         .fetchAllProducts();
+    Provider.of<UserCategoryController>(context, listen: false)
+        .fetchAllCategories(); // Fetching categories
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final productController = Provider.of<UserProductsController>(context);
     final filterController = Provider.of<ProductsFilterController>(context);
+    final categoryController = Provider.of<UserCategoryController>(context);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -71,9 +77,28 @@ class _ProductsViewState extends State<ProductsView> {
                           },
                           child: Text("Filter by price"),
                         ),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text("Filter by category"),
+                        DropdownButton<String>(
+                          hint: Text('Select category'),
+                          value: selectedCategory,
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedCategory = newValue!;
+                            });
+                            if (selectedCategory != null) {
+                              categoryController.fetchAllProductsByCategory(
+                                  selectedCategory!);
+                            }
+                            filterController.fetchAllFilterByCategoryProducts(
+                                categoryId: selectedCategory);
+                          },
+                          items: categoryController.categories.map((category) {
+                            return DropdownMenuItem<String>(
+                              value: category.id
+                                  .toString(), // Assuming category id is unique
+                              child: Text(category
+                                  .name), // Change this to match your category model
+                            );
+                          }).toList(),
                         ),
                       ],
                     ),
@@ -107,11 +132,12 @@ class _ProductsViewState extends State<ProductsView> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ProductDetailsView(
-                            productName: "${product.title}",
-                            price: "\$'${product.price}",
-                            description: "${product.description}",
-                            images: product.images,
-                            category: '${product.category.name}'),
+                          productName: "${product.title}",
+                          price: "\$'${product.price}",
+                          description: "${product.description}",
+                          images: product.images,
+                          category: '${product.category.name}',
+                        ),
                       ));
                     },
                     child: ProductCard(
