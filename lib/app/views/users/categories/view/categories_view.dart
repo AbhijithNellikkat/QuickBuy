@@ -9,25 +9,26 @@ class CategoriesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          iconTheme: const IconThemeData(color: kWhite),
-          title: Text(
-            "Categories",
-            style:
-                GoogleFonts.poppins(color: kWhite, fontWeight: FontWeight.w200),
-          ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        iconTheme: const IconThemeData(color: kWhite),
+        title: Text(
+          "Categories",
+          style:
+              GoogleFonts.poppins(color: kWhite, fontWeight: FontWeight.w200),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GridView.builder(
-            itemCount: 5,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
-            itemBuilder: (context, index) {
-              return CategoryWidget();
-            },
-          ),
-        ));
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.builder(
+          itemCount: 5,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
+          itemBuilder: (context, index) {
+            return CategoryWidget();
+          },
+        ),
+      ),
+    );
   }
 }
