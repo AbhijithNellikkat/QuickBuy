@@ -4,7 +4,6 @@ import 'package:quick_buy/app/controllers/adminside_categories_controller.dart';
 import 'package:quick_buy/app/controllers/adminside_products_controller.dart';
 import 'package:quick_buy/app/controllers/bottomNavigationBar_controller.dart';
 import 'package:quick_buy/app/controllers/login_controller.dart';
-import 'package:quick_buy/app/utils/constants.dart';
 
 import 'app/controllers/signup_controller.dart';
 import 'app/views/users/auth/signup/signup_view.dart';
@@ -24,13 +23,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LoginController()),
         ChangeNotifierProvider(create: (context) => AdminCategoryController()),
         ChangeNotifierProvider(create: (context) => AdminProductsController()),
-        ChangeNotifierProvider(create: (context) => BottomNavigationBarController()),
+        ChangeNotifierProvider(
+            create: (context) => BottomNavigationBarController()),
       ],
       child: MaterialApp(
         title: 'QuickBuy',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          appBarTheme: const AppBarTheme(backgroundColor: kBlack),
+          appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.yellow,
           ),

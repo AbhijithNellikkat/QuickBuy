@@ -19,7 +19,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
     return Scaffold(
       body: IndexedStack(
         index: bottomNavigationBarController.tabIndex,
-        children: [
+        children: const [
           HomeView(),
           CategoriesView(),
           ProductsView(),
@@ -54,16 +54,16 @@ class BottomNavigationBarWidget extends StatelessWidget {
                 text: 'Home',
               ),
               GButton(
-                icon: Icons.music_note,
-                text: 'Musics',
+                icon: Icons.category,
+                text: 'category',
               ),
               GButton(
-                icon: Icons.play_circle_fill_outlined,
-                text: 'videos',
+                icon: Icons.dataset,
+                text: 'products',
               ),
               GButton(
-                icon: Icons.settings,
-                text: 'settings',
+                icon: Icons.person_2_sharp,
+                text: 'Profile',
               ),
             ],
             selectedIndex: bottomNavigationBarController.tabIndex,
