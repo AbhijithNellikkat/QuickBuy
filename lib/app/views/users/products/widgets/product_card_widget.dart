@@ -32,22 +32,39 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AspectRatio(
-            aspectRatio: 1,
-            child: imageUrl != null
-                ? Image.network(
-                    imageUrl!,
-                    fit: BoxFit.cover,
-                  )
-                : Placeholder(), // Placeholder for image if URL is not provided
-          ),
+              aspectRatio: 1,
+              child: imageUrl != null
+                  ? Image.network(
+                      imageUrl!,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      "https://t3.ftcdn.net/jpg/05/04/28/96/360_F_504289605_zehJiK0tCuZLP2MdfFBpcJdOVxKLnXg1.jpg",
+                      fit: BoxFit.cover,
+                    ) 
+              ),
           Padding(
             padding: const EdgeInsets.all(8.0),
+            child: Text(
+              productName,
+              maxLines: 1,
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold, fontSize: 14),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  productName,
-                  style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                  price,
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
                 ),
                 const Icon(
                   Icons.favorite,
@@ -55,16 +72,6 @@ class ProductCard extends StatelessWidget {
                   size: 22,
                 )
               ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              price,
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
-              ),
             ),
           ),
         ],
