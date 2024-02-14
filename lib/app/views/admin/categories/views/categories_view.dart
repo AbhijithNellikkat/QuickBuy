@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_buy/app/controllers/categories_controller.dart';
+import 'package:quick_buy/app/controllers/adminside_categories_controller.dart';
 import 'package:quick_buy/app/models/categories_model.dart';
 import 'package:quick_buy/app/utils/constants.dart';
 
@@ -24,7 +24,7 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   void initState() {
-    Provider.of<CategoryController>(context, listen: false)
+    Provider.of<AdminCategoryController>(context, listen: false)
         .fetchAllCategories();
 
     super.initState();
@@ -32,7 +32,8 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   Widget build(BuildContext context) {
-    final categoryController = Provider.of<CategoryController>(context);
+    final adminCategoryController =
+        Provider.of<AdminCategoryController>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +43,7 @@ class _CategoriesViewState extends State<CategoriesView> {
           style: TextStyle(color: kWhite),
         ),
       ),
-      body: categoryController.loading
+      body: adminCategoryController.loading
           ? const Center(
               child: SpinKitFadingCircle(
                 color: kBlack,
@@ -54,9 +55,9 @@ class _CategoriesViewState extends State<CategoriesView> {
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
-                itemCount: categoryController.categories.length,
+                itemCount: adminCategoryController.categories.length,
                 itemBuilder: (context, index) {
-                  final category = categoryController.categories[index];
+                  final category = adminCategoryController.categories[index];
 
                   return Padding(
                     padding:
@@ -88,8 +89,10 @@ class _CategoriesViewState extends State<CategoriesView> {
                                     return [
                                       PopupMenuItem(
                                         onTap: () {
-                                          updateCategoryDialog(context,
-                                              categoryController, category);
+                                          updateCategoryDialog(
+                                              context,
+                                              adminCategoryController,
+                                              category);
                                         },
                                         child: const Text(
                                           "Update category",
@@ -117,7 +120,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                                                   TextButton(
                                                     onPressed: () async {
                                                       bool deleted =
-                                                          await categoryController
+                                                          await adminCategoryController
                                                               .deleteCategory(
                                                                   categoryID:
                                                                       category
@@ -187,15 +190,17 @@ class _CategoriesViewState extends State<CategoriesView> {
         child: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            addCategoryBottomSheet(context, categoryController);
+            addCategoryBottomSheet(context, adminCategoryController);
           },
         ),
       ),
     );
   }
 
-  void updateCategoryDialog(BuildContext context,
-      CategoryController categoryController, CategoriesModel category) {
+  void updateCategoryDialog(
+      BuildContext context,
+      AdminCategoryController adminCategoryController,
+      CategoriesModel category) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -221,7 +226,7 @@ class _CategoriesViewState extends State<CategoriesView> {
               onPressed: () async {
                 CategoriesModel updatedCategoryName =
                     CategoriesModel(name: updateCategoryNameController.text);
-                await categoryController.updateCategory(
+                await adminCategoryController.updateCategory(
                     categoryId: category.id!,
                     categoriesModel: updatedCategoryName);
 
@@ -236,7 +241,7 @@ class _CategoriesViewState extends State<CategoriesView> {
   }
 
   Future<dynamic> addCategoryBottomSheet(
-      BuildContext context, CategoryController categoryController) {
+      BuildContext context, AdminCategoryController adminCategoryController) {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -272,7 +277,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                         name: categoryNameController.text.trim(),
                       );
 
-                      categoryController.createNewCategory(
+                      adminCategoryController.createNewCategory(
                         categoriesModel: newCategoryData,
                       );
                       Navigator.of(context).pop();

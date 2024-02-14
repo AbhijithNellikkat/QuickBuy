@@ -3,9 +3,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:quick_buy/app/models/categories_model.dart';
-import 'package:quick_buy/app/services/categories_service.dart';
+import 'package:quick_buy/app/services/adminside_categories_service.dart';
 
-class CategoryController extends ChangeNotifier {
+class AdminCategoryController extends ChangeNotifier {
   bool loading = false;
 
   final CategoryService categoryService = CategoryService();

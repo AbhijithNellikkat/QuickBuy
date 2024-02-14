@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:quick_buy/app/services/products_serivce.dart';
+import 'package:quick_buy/app/models/products_model.dart';
+import 'package:quick_buy/app/services/adminside_products_serivce.dart';
 
-class ProductsController extends ChangeNotifier {
+class AdminProductsController extends ChangeNotifier {
   final ProductsService productsService = ProductsService();
   bool loading = false;
   List<dynamic> products = [];
@@ -23,6 +24,20 @@ class ProductsController extends ChangeNotifier {
       loading = false;
       notifyListeners();
       log('Error : $e');
+    }
+  }
+
+  Future<void> createNewProduct({required ProductsModel productsModel}) async {
+    try {
+      loading = true;
+      notifyListeners();
+
+      await productsService.createNewProduct(productsModel: productsModel);
+      await fetchAllProducts();
+    } catch (e) {
+      loading = false;
+      notifyListeners();
+      log('$e');
     }
   }
 }
