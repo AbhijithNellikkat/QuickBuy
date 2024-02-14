@@ -44,16 +44,17 @@ class _ProductsViewState extends State<ProductsView> {
               GoogleFonts.poppins(color: kWhite, fontWeight: FontWeight.w200),
         ),
         bottom: PreferredSize(
-          preferredSize: const Size(double.infinity, 60),
+          preferredSize: const Size(double.infinity, 130),
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   width: double.infinity,
-                  height: 50,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(33)),
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(33),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: ListView(
@@ -75,36 +76,40 @@ class _ProductsViewState extends State<ProductsView> {
                           onPressed: () {
                             showPriceFilterDialog(context, filterController);
                           },
-                          child: Text("Filter by price"),
-                        ),
-                        DropdownButton<String>(
-                          hint: Text('Select category'),
-                          value: selectedCategory,
-                          onChanged: (newValue) {
-                            setState(() {
-                              selectedCategory = newValue!;
-                            });
-                            if (selectedCategory != null) {
-                              categoryController.fetchAllProductsByCategory(
-                                  selectedCategory!);
-                            }
-                            filterController.fetchAllFilterByCategoryProducts(
-                                categoryId: selectedCategory);
-                          },
-                          items: categoryController.categories.map((category) {
-                            return DropdownMenuItem<String>(
-                              value: category.id
-                                  .toString(), // Assuming category id is unique
-                              child: Text(category
-                                  .name), // Change this to match your category model
-                            );
-                          }).toList(),
+                          child: const Text("Filter by price"),
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
+              DropdownButton<String>(
+                hint: const Text(
+                  'Select category',
+                ),
+                value: selectedCategory,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedCategory = newValue!;
+                  });
+                  if (selectedCategory != null) {
+                    categoryController
+                        .fetchAllProductsByCategory(selectedCategory!);
+                  }
+                  filterController.fetchAllFilterByCategoryProducts(
+                      categoryId: selectedCategory);
+                },
+                items: categoryController.categories.map((category) {
+                  return DropdownMenuItem<String>(
+                    value: category.id
+                        .toString(), // Assuming category id is unique
+                    child: Text(
+                      category.name,
+                    ), // Change this to match your category model
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 19),
             ],
           ),
         ),
