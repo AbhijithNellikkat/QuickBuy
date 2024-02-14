@@ -25,7 +25,8 @@ class ProductDetailsView extends StatelessWidget {
         iconTheme: const IconThemeData(color: kWhite),
         title: Text(
           "Product Details",
-          style: GoogleFonts.poppins(color: kWhite, fontWeight: FontWeight.w200),
+          style:
+              GoogleFonts.poppins(color: kWhite, fontWeight: FontWeight.w200),
         ),
       ),
       body: SingleChildScrollView(
@@ -48,9 +49,9 @@ class ProductDetailsView extends StatelessWidget {
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               "Description:",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
@@ -58,9 +59,9 @@ class ProductDetailsView extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               "Images:",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             SizedBox(
