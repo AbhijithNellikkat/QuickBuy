@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_buy/app/models/users_model.dart';
 import 'package:quick_buy/app/services/login_service.dart';
+import 'package:quick_buy/app/views/users/home/bottom_navigationbar.dart';
 import 'package:quick_buy/app/views/users/home/home_view.dart';
 
 class LoginController extends ChangeNotifier {
@@ -28,7 +29,7 @@ class LoginController extends ChangeNotifier {
         await loginService.fetchUserProfile(accessToken);
 
         Navigator.pushReplacement(
-            cxt, MaterialPageRoute(builder: (context) => HomeView()));
+            cxt, MaterialPageRoute(builder: (context) => BottomNavigationBarWidget()));
       } else {
         ScaffoldMessenger.of(cxt)
             .showSnackBar(const SnackBar(content: Text('Failed to login')));
