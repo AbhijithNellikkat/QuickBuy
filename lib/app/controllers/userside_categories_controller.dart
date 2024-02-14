@@ -10,6 +10,8 @@ class UserCategoryController extends ChangeNotifier {
 
   List<dynamic> productsByCategory = [];
 
+  List<dynamic> fetchAllFurnituresProductsList = [];
+
   final UserSideCategoryService userSideCategoryService =
       UserSideCategoryService();
 
@@ -38,6 +40,23 @@ class UserCategoryController extends ChangeNotifier {
 
       productsByCategory =
           await userSideCategoryService.fetchAllProductsByCategory(categoryId);
+
+      loading = false;
+      notifyListeners();
+    } catch (e) {
+      loading = false;
+      notifyListeners();
+      log('$e');
+    }
+  }
+
+  Future<void> fetchAllFurnituresProducts() async {
+    try {
+      loading = true;
+      notifyListeners();
+
+      fetchAllFurnituresProductsList =
+          await userSideCategoryService.fetchAllFurnituresProducts();
 
       loading = false;
       notifyListeners();

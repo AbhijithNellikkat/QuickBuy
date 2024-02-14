@@ -41,8 +41,7 @@ class ProductCard extends StatelessWidget {
                   : Image.network(
                       "https://t3.ftcdn.net/jpg/05/04/28/96/360_F_504289605_zehJiK0tCuZLP2MdfFBpcJdOVxKLnXg1.jpg",
                       fit: BoxFit.cover,
-                    ) 
-              ),
+                    )),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(

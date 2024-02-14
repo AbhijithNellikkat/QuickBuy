@@ -53,7 +53,7 @@ class SaleWidget extends StatelessWidget {
                           child: FittedBox(
                             fit: BoxFit.fill,
                             child: Text(
-                              "50%\nOFF",
+                              "30%\nOFF",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

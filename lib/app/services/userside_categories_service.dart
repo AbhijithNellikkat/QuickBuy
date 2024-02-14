@@ -49,4 +49,28 @@ class UserSideCategoryService {
       rethrow;
     }
   }
+
+   Future<List<dynamic>> fetchAllFurnituresProducts() async {
+    try {
+
+      
+      final response = await dio.get("https://api.escuelajs.co/api/v1/categories/3/products");
+
+      if (response.statusCode == 200) {
+        log("fetchAllFurnituresProducts data fetching successfully in user side ");
+        final List<dynamic> productsByCategory = (response.data)
+            .map((category) => AllProductsByCategoryModel.fromJson(category))
+            .toList();
+
+        return productsByCategory;
+      } else {
+        throw Exception('Failed to load fetchAllFurnituresProducts');
+      }
+    } catch (e) {
+      log("Error : $e");
+      rethrow;
+    }
+  }
+
+
 }

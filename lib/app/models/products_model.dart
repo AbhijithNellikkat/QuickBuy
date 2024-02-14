@@ -21,6 +21,8 @@ class ProductsModel {
   DateTime? updatedAt;
   Category? category;
 
+  var name;
+
   ProductsModel({
     this.id,
     this.title,
