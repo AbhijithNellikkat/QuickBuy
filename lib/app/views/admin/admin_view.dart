@@ -32,6 +32,7 @@ class AdminView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
