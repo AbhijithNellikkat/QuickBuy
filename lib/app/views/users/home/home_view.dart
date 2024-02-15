@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_buy/app/controllers/login_controller.dart';
 import 'package:quick_buy/app/utils/constants.dart';
-import 'package:quick_buy/app/views/admin/admin_view.dart';
 import 'package:quick_buy/app/views/users/categories/view/productsByCategory_view.dart';
 import 'package:quick_buy/app/views/users/categories/widgets/category_widget.dart';
 import 'package:quick_buy/app/views/users/home/widgets/sale_widget.dart';
@@ -39,21 +38,34 @@ class _HomeViewState extends State<HomeView> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const AdminView(),
-                ));
-              },
-              icon: const Icon(Icons.admin_panel_settings),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () {
-                Provider.of<LoginController>(context, listen: false)
-                    .logoutUser(context);
+                // Show logout confirmation dialog
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Logout"),
+                      content: const Text("Are you sure you want to logout?"),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text("Cancel"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: const Text("Logout"),
+                          onPressed: () {
+                            // Perform logout action
+                            Provider.of<LoginController>(context, listen: false)
+                                .logoutUser(context);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
           ),

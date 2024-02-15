@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_buy/app/controllers/adminside_categories_controller.dart';
@@ -71,8 +73,8 @@ class _AppStartUpViewState extends State<AppStartUpView> {
     final accessToken = await loginService.getAccessToken();
 
     if (accessToken != null) {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => BottomNavigationBarWidget()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const BottomNavigationBarWidget()));
     } else {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => SignUpView()));
@@ -85,8 +87,6 @@ class _AppStartUpViewState extends State<AppStartUpView> {
 
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? CircularProgressIndicator()
-        : Container(); // Show loading indicator while checking login status
+    return loading ? const CircularProgressIndicator() : Container();
   }
 }
