@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_buy/app/controllers/login_controller.dart';
 import 'package:quick_buy/app/utils/constants.dart';
 import 'package:quick_buy/app/views/admin/admin_view.dart';
 import 'package:quick_buy/app/views/users/categories/view/productsByCategory_view.dart';
@@ -40,12 +41,22 @@ class _HomeViewState extends State<HomeView> {
             child: IconButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AdminView(),
+                  builder: (context) => const AdminView(),
                 ));
               },
-              icon: Icon(Icons.admin_panel_settings),
+              icon: const Icon(Icons.admin_panel_settings),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                Provider.of<LoginController>(context, listen: false)
+                    .logoutUser(context);
+              },
+            ),
+          ),
         ],
         automaticallyImplyLeading: false,
         iconTheme: const IconThemeData(color: kWhite),

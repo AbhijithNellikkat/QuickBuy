@@ -2,8 +2,8 @@
 
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quick_buy/app/models/users_model.dart';
 import 'package:quick_buy/app/utils/api_url.dart';
 
@@ -26,7 +26,7 @@ class LoginService {
 
       if (response.statusCode == 201) {
         String accessToken = response.data['access_token'];
-
+        await _saveAccessToken(accessToken);
         return accessToken;
       } else if (response.statusCode == 401) {
         String error = 'Something went wrong';
@@ -69,5 +69,20 @@ class LoginService {
     } catch (e) {
       log('Error fetching profile: $e');
     }
+  }
+
+  Future<void> _saveAccessToken(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('access_token', token);
+  }
+
+  Future<String?> getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('access_token');
+  }
+
+  Future<void> clearAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('access_token');
   }
 }

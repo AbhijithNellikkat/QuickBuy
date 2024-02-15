@@ -1,13 +1,14 @@
-// ignore_for_file: deprecated_member_use, use_build_context_synchronously
-
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
 import 'package:quick_buy/app/models/users_model.dart';
 import 'package:quick_buy/app/services/login_service.dart';
+import 'package:quick_buy/app/views/admin/admin_view.dart';
+import 'package:quick_buy/app/views/users/auth/login/login_view.dart';
 import 'package:quick_buy/app/views/users/home/bottom_navigationbar.dart';
-import 'package:quick_buy/app/views/users/home/home_view.dart';
+
 
 class LoginController extends ChangeNotifier {
   bool loading = false;
@@ -23,13 +24,21 @@ class LoginController extends ChangeNotifier {
       String? accessToken = await loginService.loginUser(user: user);
       log("adsfasdf : $accessToken");
 
-      // ignore: unnecessary_null_comparison
       if (accessToken != null) {
-        
         await loginService.fetchUserProfile(accessToken);
 
-        Navigator.pushReplacement(
-            cxt, MaterialPageRoute(builder: (context) => BottomNavigationBarWidget()));
+        if (user.email == 'admin666@gmail.com' && user.password == 'admin666') {
+          Navigator.pushReplacement(
+            cxt,
+            MaterialPageRoute(builder: (context) => AdminView()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            cxt,
+            MaterialPageRoute(
+                builder: (context) => BottomNavigationBarWidget()),
+          );
+        }
       } else {
         ScaffoldMessenger.of(cxt)
             .showSnackBar(const SnackBar(content: Text('Failed to login')));
@@ -52,5 +61,14 @@ class LoginController extends ChangeNotifier {
           backgroundColor: Colors.red,
           content: Text('Failed to login. Please try again later')));
     }
+  }
+
+   void logoutUser(BuildContext context) {
+    loginService.clearAccessToken();
+    // Navigate to Login Screen
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginView()),
+    );
   }
 }

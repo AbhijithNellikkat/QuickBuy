@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:quick_buy/app/controllers/login_controller.dart';
 import 'package:quick_buy/app/utils/constants.dart';
 import 'package:quick_buy/app/views/admin/categories/views/categories_view.dart';
 import 'package:quick_buy/app/views/admin/dashboard/views/dashboard_view.dart';
@@ -22,15 +24,29 @@ class AdminView extends StatelessWidget {
           centerTitle: true,
         ),
         drawer: Drawer(
-          
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                child: Text(
-                  "Quick Buy",
-                  style: GoogleFonts.poppins(
-                      fontSize: 22, fontWeight: FontWeight.bold),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Quick Buy",
+                      style: GoogleFonts.poppins(
+                          fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        icon: const Icon(Icons.logout),
+                        onPressed: () {
+                          Provider.of<LoginController>(context, listen: false)
+                              .logoutUser(context);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Card(

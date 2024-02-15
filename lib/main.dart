@@ -7,8 +7,10 @@ import 'package:quick_buy/app/controllers/login_controller.dart';
 import 'package:quick_buy/app/controllers/products_filter_controller.dart';
 import 'package:quick_buy/app/controllers/userside_categories_controller.dart';
 import 'package:quick_buy/app/controllers/userside_products_controller.dart';
+import 'package:quick_buy/app/views/users/home/bottom_navigationbar.dart';
 
 import 'app/controllers/signup_controller.dart';
+import 'app/services/login_service.dart';
 import 'app/views/users/auth/signup/signup_view.dart';
 
 void main() {
@@ -28,12 +30,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AdminProductsController()),
         ChangeNotifierProvider(
             create: (context) => BottomNavigationBarController()),
-            ChangeNotifierProvider(
-            create: (context) => UserCategoryController()),
-              ChangeNotifierProvider(
-            create: (context) => UserProductsController()),
-               ChangeNotifierProvider(
-            create: (context) => ProductsFilterController()),
+        ChangeNotifierProvider(create: (context) => UserCategoryController()),
+        ChangeNotifierProvider(create: (context) => UserProductsController()),
+        ChangeNotifierProvider(create: (context) => ProductsFilterController()),
       ],
       child: MaterialApp(
         title: 'QuickBuy',
@@ -45,9 +44,49 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: SignUpView(),
+        home: AppStartUpView(),
         // home: AdminView(),
       ),
     );
+  }
+}
+
+class AppStartUpView extends StatefulWidget {
+  const AppStartUpView({super.key});
+
+  @override
+  State<AppStartUpView> createState() => _AppStartUpViewState();
+}
+
+class _AppStartUpViewState extends State<AppStartUpView> {
+  bool loading = true;
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    final loginService = LoginService();
+    final accessToken = await loginService.getAccessToken();
+
+    if (accessToken != null) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => BottomNavigationBarWidget()));
+    } else {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => SignUpView()));
+    }
+
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return loading
+        ? CircularProgressIndicator()
+        : Container(); // Show loading indicator while checking login status
   }
 }

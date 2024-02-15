@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:quick_buy/app/views/users/categories/view/categories_view.dart';
 import 'package:quick_buy/app/views/users/home/home_view.dart';
 import 'package:quick_buy/app/views/users/products/view/products_view.dart';
-import 'package:quick_buy/app/views/users/profile/view/profile_view.dart';
 
 import '../../../controllers/bottomNavigationBar_controller.dart';
 
@@ -23,7 +22,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
           HomeView(),
           CategoriesView(),
           ProductsView(),
-          ProfileView(),
+          // ProfileView(),
         ],
       ),
       bottomNavigationBar: Container(
@@ -61,10 +60,10 @@ class BottomNavigationBarWidget extends StatelessWidget {
                 icon: Icons.dataset,
                 text: 'products',
               ),
-              GButton(
-                icon: Icons.person_2_sharp,
-                text: 'Profile',
-              ),
+              // GButton(
+              //   icon: Icons.person_2_sharp,
+              //   text: 'Profile',
+              // ),
             ],
             selectedIndex: bottomNavigationBarController.tabIndex,
             onTabChange: (index) {
