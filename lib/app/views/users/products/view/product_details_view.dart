@@ -84,28 +84,29 @@ class ProductDetailsView extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             "Price: $price",
-                            style: TextStyle(fontSize: 18),
+                            style: GoogleFonts.poppins(fontSize: 18),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             "Category: $category",
-                            style: TextStyle(fontSize: 18),
+                            style: GoogleFonts.poppins(fontSize: 18),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Text(
                             "Description:",
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             description,
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.poppins(
+                                fontSize: 16, fontWeight: FontWeight.w200),
                           ),
                         ],
                       ),
