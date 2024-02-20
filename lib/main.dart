@@ -44,11 +44,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.yellow,
+            seedColor: const Color.fromARGB(255, 53, 25, 3),
           ),
           useMaterial3: true,
         ),
-        home: AppStartUpView(),
+        home: const AppStartUpView(),
         // home: AdminView(),
       ),
     );

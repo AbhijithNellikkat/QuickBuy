@@ -72,7 +72,7 @@ class _ProductsViewState extends State<ProductsView> {
         child: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const AddNewProductView(),
+              builder: (context) => AddNewProductView(),
             ));
           },
           child: const Icon(Icons.add),

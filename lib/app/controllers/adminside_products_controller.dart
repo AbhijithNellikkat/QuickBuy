@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:quick_buy/app/models/products_model.dart';
+
 import 'package:quick_buy/app/services/adminside_products_serivce.dart';
 
 class AdminProductsController extends ChangeNotifier {
@@ -27,17 +28,13 @@ class AdminProductsController extends ChangeNotifier {
     }
   }
 
-  Future<void> createNewProduct({required ProductsModel productsModel}) async {
+  Future<bool> createProduct(ProductsModel product) async {
     try {
-      loading = true;
-      notifyListeners();
-
-      await productsService.createNewProduct(productsModel: productsModel);
-      await fetchAllProducts();
+      final bool success = await productsService.createProduct(product);
+      return success;
     } catch (e) {
-      loading = false;
-      notifyListeners();
-      log('$e');
+      print("Error creating product: $e");
+      return false;
     }
   }
 }

@@ -7,7 +7,7 @@ import 'package:quick_buy/app/services/adminside_categories_service.dart';
 
 class AdminCategoryController extends ChangeNotifier {
   bool loading = false;
-  
+
   final CategoryService categoryService = CategoryService();
 
   List<dynamic> categories = [];

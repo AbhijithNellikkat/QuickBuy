@@ -10,3 +10,5 @@ var categoriesUrl = "https://api.escuelajs.co/api/v1/categories";
 
 var allProductsByCategoryUrl =
     "https://api.escuelajs.co/api/v1/categories/1/products";
+
+var addNewProductUrl = "https://api.escuelajs.co/api/v1/products/";

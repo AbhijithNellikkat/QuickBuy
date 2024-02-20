@@ -36,124 +36,136 @@ class _ProductsViewState extends State<ProductsView> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kWhite,
         automaticallyImplyLeading: false,
         iconTheme: const IconThemeData(color: kWhite),
         title: Text(
           "Products",
           style:
-              GoogleFonts.poppins(color: kWhite, fontWeight: FontWeight.w200),
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size(double.infinity, 130),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: double.infinity,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(33),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            filterController.fetchAllProducts();
-                          },
-                          child: Text("All"),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            showTitleFilterDialog(context, filterController);
-                          },
-                          child: Text("Filter by title"),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            showPriceFilterDialog(context, filterController);
-                          },
-                          child: const Text("Filter by price"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              DropdownButton<String>(
-                hint: const Text(
-                  'Select category',
-                ),
-                value: selectedCategory,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedCategory = newValue!;
-                  });
-                  if (selectedCategory != null) {
-                    categoryController
-                        .fetchAllProductsByCategory(selectedCategory!);
-                  }
-                  filterController.fetchAllFilterByCategoryProducts(
-                      categoryId: selectedCategory);
-                },
-                items: categoryController.categories.map((category) {
-                  return DropdownMenuItem<String>(
-                    value: category.id
-                        .toString(), // Assuming category id is unique
-                    child: Text(
-                      category.name,
-                    ), // Change this to match your category model
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 19),
-            ],
-          ),
+              GoogleFonts.poppins(color: kBlack, fontWeight: FontWeight.w200),
         ),
       ),
-      body: filterController.loading
-          ? const Center(
-              child: SpinKitFadingCircle(
-                color: kBlack,
-                size: 50.0,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(33),
               ),
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 20),
-              child: GridView.builder(
-                itemCount: filterController.filteredProducts.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
-                  childAspectRatio: 0.7, // Adjust this ratio as needed
-                ),
-                itemBuilder: (context, index) {
-                  final product = filterController.filteredProducts[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ProductDetailsView(
-                          productName: "${product.title}",
-                          price: "\$'${product.price}",
-                          description: "${product.description}",
-                          images: product.images,
-                          category: '${product.category.name}',
-                        ),
-                      ));
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      filterController.fetchAllProducts();
                     },
-                    child: ProductCard(
-                      productName: "${product.title}",
-                      price: "\$${product.price}",
-                      imageUrl: product.images[0],
-                    ),
-                  );
-                },
+                    child: const Text("All"),
+                  ),
+                  const SizedBox(width: 10),
+                  OutlinedButton(
+                    onPressed: () {
+                      showTitleFilterDialog(context, filterController);
+                    },
+                    child: const Text("Filter by title"),
+                  ),
+                  const SizedBox(width: 10),
+                  OutlinedButton(
+                    onPressed: () {
+                      showPriceFilterDialog(context, filterController);
+                    },
+                    child: const Text("Filter by price"),
+                  ),
+                ],
               ),
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: DropdownButton<String>(
+                  hint: const Text(
+                    'Select category',
+                  ),
+                  value: selectedCategory,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedCategory = newValue!;
+                    });
+                    if (selectedCategory != null) {
+                      categoryController
+                          .fetchAllProductsByCategory(selectedCategory!);
+                    }
+                    filterController.fetchAllFilterByCategoryProducts(
+                        categoryId: selectedCategory);
+                  },
+                  items: categoryController.categories.map((category) {
+                    return DropdownMenuItem<String>(
+                      value: category.id
+                          .toString(), // Assuming category id is unique
+                      child: Text(
+                        category.name,
+                      ), // Change this to match your category model
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 19),
+          Expanded(
+            child: filterController.loading
+                ? Center(
+                    child: SpinKitFadingCircle(
+                      color: kBlack,
+                      size: 50.0,
+                    ),
+                  )
+                : Padding(
+                    padding:
+                        const EdgeInsets.only(left: 13, right: 20, bottom: 23),
+                    child: GridView.builder(
+                      itemCount: filterController.filteredProducts.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 20,
+                        childAspectRatio: 0.7, // Adjust this ratio as needed
+                      ),
+                      itemBuilder: (context, index) {
+                        final product =
+                            filterController.filteredProducts[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ProductDetailsView(
+                                productName: "${product.title}",
+                                price: "\$'${product.price}",
+                                description: "${product.description}",
+                                images: product.images,
+                                category: '${product.category.name}',
+                              ),
+                            ));
+                          },
+                          child: ProductCard(
+                            productName: "${product.title}",
+                            price: "\$${product.price}",
+                            imageUrl: product.images[0],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+          ),
+        ],
+      ),
     );
   }
 
