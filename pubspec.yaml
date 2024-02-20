@@ -47,6 +47,7 @@ dependencies:
   fancy_shimmer_image: ^2.0.3
   clay_containers: ^0.3.4
   lottie: ^2.7.0
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
